@@ -35,12 +35,11 @@ export function playGameOver()  { playTone({ type: 'sine',      startFreq: 200, 
 let bgOsc, bgGain, lfoOsc, lfoGain;
 
 export function startBackground() {
-  // resume context if needed
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
     console.log('[audio] AudioContext resumed');
   }
-  if (bgOsc) return; // already running
+  if (bgOsc) return;
 
   console.log('[audio] Starting wobble drone');
   bgOsc  = audioCtx.createOscillator();
@@ -75,41 +74,47 @@ export function stopBackground() {
 }
 
 // ——————————————————————————————————————————————
-// 4) Background music via HTMLAudioElement (user-gesture only)
+// 4) Background music via fetch → Blob URL (user-gesture only)
 // ——————————————————————————————————————————————
 let bgMusic = null;
 
 export async function startMusic() {
+  if (bgMusic) return;
+
   try {
-    // resume context if needed
+    // 1) Resume AudioContext if suspended
     if (audioCtx.state === 'suspended') {
       await audioCtx.resume();
       console.log('[audio] AudioContext resumed');
     }
-    if (bgMusic) return; // already created
 
-    console.log('[audio] Creating <audio> for music');
+    // 2) Fetch the real MP3 from your Pages site
+    console.log('[audio] Fetching MP3 as blob…');
+    const response = await fetch('assets/battle_theme2.mp3');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch MP3: HTTP ${response.status}`);
+    }
+    const blob = await response.blob();
+    console.log('[audio] MP3 blob fetched:', blob);
 
-// when running locally, use a local file    
-    bgMusic = new Audio('assets/battle_theme2.mp3');
-
-// when running on a server, use a relative path
-//bgMusic = new Audio('../assets/battle_theme2.mp3');
-
+    // 3) Create a blob URL and hand it to the Audio element
+    const blobUrl = URL.createObjectURL(blob);
+    bgMusic = new Audio(blobUrl);
     bgMusic.loop   = true;
     bgMusic.volume = 0.3;
 
     bgMusic.addEventListener('canplaythrough', () => {
-      console.log('[audio] Music loaded');
+      console.log('[audio] Music loaded (canplaythrough)');
     });
     bgMusic.addEventListener('error', e => {
       console.error('[audio] Music failed to load:', e);
     });
 
+    // 4) Play the music
     await bgMusic.play();
     console.log('[audio] Music playback started');
   } catch (err) {
-    console.error('[audio] Music play() failed:', err);
+    console.error('[audio] startMusic error:', err);
   }
 }
 
@@ -118,5 +123,6 @@ export function stopMusic() {
   console.log('[audio] Stopping music');
   bgMusic.pause();
   bgMusic.currentTime = 0;
+  URL.revokeObjectURL(bgMusic.src);
   bgMusic = null;
 }
