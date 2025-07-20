@@ -72,6 +72,11 @@ const startBtn    = document.getElementById('start-btn');
   let enemyLoaded    = false;
   enemyImage.onload  = () => { enemyLoaded = true; };
 
+// running on a server, use a relative path
+//shipImage.src    = '../assets/player2.png';
+//enemyImage.src   = '../assets/enemy_drone.png';
+
+
   // ——————————————————————————————————————————————
   // Level-clear messages
   // ——————————————————————————————————————————————

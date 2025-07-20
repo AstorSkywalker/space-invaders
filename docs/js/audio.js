@@ -89,7 +89,13 @@ export async function startMusic() {
     if (bgMusic) return; // already created
 
     console.log('[audio] Creating <audio> for music');
+
+// when running locally, use a local file    
     bgMusic = new Audio('assets/battle_theme2.mp3');
+
+// when running on a server, use a relative path
+//bgMusic = new Audio('../assets/battle_theme2.mp3');
+
     bgMusic.loop   = true;
     bgMusic.volume = 0.3;
 
