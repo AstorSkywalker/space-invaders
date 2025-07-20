@@ -5,6 +5,12 @@ Oh not, not another Space Invaders game!
 
 Juego clásico de estilo Space Invaders implementado en JavaScript, HTML y CSS.
 
+**Run here on Netlify** https://astorskywalker-space-invader.netlify.app/
+or
+**Run here on GitHubPages** https://astorskywalker.github.io/space-invaders/
+or
+**Run here on Vercel** https://astorskywalker-space-invader.netlify.app/](https://space-invaders-orpin.vercel.app/
+
 ---
 
 ## Descripción
