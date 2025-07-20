@@ -11,6 +11,9 @@ import {
 } from './audio.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+const startScreen = document.getElementById('start-screen');
+const startBtn    = document.getElementById('start-btn');
+
   const canvas = document.getElementById('gameCanvas');
   const ctx    = canvas.getContext('2d');
 
@@ -68,6 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
   enemyImage.src     = 'assets/enemy_drone.png';
   let enemyLoaded    = false;
   enemyImage.onload  = () => { enemyLoaded = true; };
+
+// running on a server, use a relative path
+//shipImage.src    = '../assets/player2.png';
+//enemyImage.src   = '../assets/enemy_drone.png';
+
 
   // ——————————————————————————————————————————————
   // Level-clear messages
@@ -310,16 +318,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+
   // ——————————————————————————————————————————————
-  // Start game
+  // Start game on user click
   // ——————————————————————————————————————————————
-  initEnemies();
-  startMusic();
-  startBackground();
+  function initGame() {
+    initEnemies();
+    startMusic();
+    startBackground();
+    requestAnimationFrame(gameLoop);
+  }
+
+  startBtn.addEventListener('click', () => {
+    startScreen.style.display = 'none';
+    initGame();
+  });
+
+  // no auto-start here!
+  // initEnemies();
+  // startMusic();
+  // startBackground();
+
+  // initEnemies();
+  // startMusic();
+  // startBackground();
+
   function gameLoop() {
     update();
     render();
     requestAnimationFrame(gameLoop);
   }
-  gameLoop();
+
 });
