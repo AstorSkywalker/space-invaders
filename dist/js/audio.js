@@ -104,7 +104,7 @@ export function startMusic() {
   if (bgMusic) return;
 
   console.log('[audio] Creating <audio> for music');
-  bgMusic = new Audio('assets/battle_theme2.mp3');
+  bgMusic = new Audio('dist/assets/battle_theme2.mp3');
 
   bgMusic.loop   = true;
   bgMusic.volume = 0.3;
