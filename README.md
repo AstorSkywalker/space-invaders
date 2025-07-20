@@ -9,7 +9,7 @@ Juego clásico de estilo Space Invaders implementado en JavaScript, HTML y CSS.
 or <br>
 **Run here on GitHubPages** https://astorskywalker.github.io/space-invaders/ <br>
 or <br>
-**Run here on Vercel** https://astorskywalker-space-invader.netlify.app/](https://space-invaders-orpin.vercel.app/ <br>
+**Run here on Vercel** https://space-invaders-orpin.vercel.app/ <br>
 
 ---
 
